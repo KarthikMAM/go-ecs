@@ -27,12 +27,8 @@ jobs:
       - checkout
 
       - run:
-          name: Build and Upload Build to ECR
-          command: bash ./scripts/build.sh
-      
-      - run:
-          name: Deploy Uploaded Build to ECS
-          command: bash ./scripts/deploy.sh
+          name: Build and Deploy Images to ECS
+          command: bash deploy.sh
 
 workflows:
     version: 2
