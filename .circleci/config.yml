@@ -20,3 +20,30 @@ jobs:
       - run: 
           name: build
           command: go build
+
+  deploy_prod:
+    machine: true
+    steps:
+      - checkout
+
+      - run:
+          name: Build and Deploy to ECS
+          command: bash ./scripts/deploy.sh
+
+workflows:
+    version: 2
+    
+    test-and-deploy:
+      jobs:
+        - build
+        - hold:
+            type: approval
+            requires:
+             - build
+        - deploy_prod:
+            requires:
+             - hold
+            filters:
+              branches:
+                only:
+                  - master
