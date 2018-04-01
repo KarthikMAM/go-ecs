@@ -21,7 +21,7 @@ jobs:
           name: build
           command: go build
 
-  generate_and_upload_build:
+  build_and_deploy:
     machine: true
     steps:
       - checkout
@@ -29,6 +29,10 @@ jobs:
       - run:
           name: Build and Upload Build to ECR
           command: bash ./scripts/build.sh
+      
+      - run:
+          name: Deploy Uploaded Build to ECS
+          command: bash ./scripts/deploy.sh
 
 workflows:
     version: 2
@@ -40,7 +44,7 @@ workflows:
             type: approval
             requires:
              - build
-        - generate_and_upload_build:
+        - build_and_deploy:
             requires:
              - hold
             filters:
