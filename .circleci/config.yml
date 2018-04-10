@@ -16,10 +16,14 @@ jobs:
       - run: 
           name: Running Unit Tests
           command: go test
+          environment:
+            HELLO: $WELCOME
 
       - run: 
-          name: build
-          command: go build
+          name: Running Unit Tests
+          command: bash test.sh
+          environment:
+            HELLO: $WELCOME
 
   build_and_deploy:
     machine: true
@@ -32,7 +36,7 @@ jobs:
 
 workflows:
     version: 2
-    
+
     test-and-deploy:
       jobs:
         - build
